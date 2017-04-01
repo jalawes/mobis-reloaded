@@ -10,10 +10,10 @@
                 src="mobis-reloaded.png"
                 title="You take the blue pill, the story ends. You wake up in your bed and believe whatever you want to believe. You take the red pill, you stay in Wonderland, and I show you how deep the rabbit hole goes."
             >
-            <div class="tabs is-centered">
+            <div class="is-centered">
                 <ul>
                     @if (Auth::guest())
-                    <li><a href="/login">Sign In</a></li>
+                    <li><a class="button is-outlined" href="/login">Sign In</a></li>
                     @elseif (Auth::check())
                     <li class="is-active"><a href="/users/{{ Auth::user()->id }}">Profile</a></li>
                     <li class="is-active"><a href="/quiz">Quiz</a></li>
