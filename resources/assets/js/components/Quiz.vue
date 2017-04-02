@@ -1,25 +1,52 @@
 <template>
 <div class="content">
   <div>
+
     <div class="box">
       <div class="inner-box">
-        <p v-show="!loading">{{ currentQuestion }}</p>
+        <div v-show="!loading">
+          <p>{{ currentQuestion }}</p>
+        </div>
       </div>
+
+      <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right">
+          <span class="nav-item">
+            <p class="level-item">
+              <a :class="[{'is-loading': loading}, {'is-disabled': !currentQuestion}, 'button is-outlined']" @click="answer" v-for="answer in answers">{{ answer }}</a>
+            </p>
+          </span>
+        </div>
+      </div>
+
+      <div class="level">
+        <div class="level-left"></div>
+        <div class="level-right bottom-menu">
+          <span class="nav-item">
+            <p class="level-item">
+              <a :class="[{'is-loading': loading}, ' button is-outlined']" @click="getQuiz">{{ currentQuestion < 1 ? 'Play' : 'Next' }}</a>
+              <a class="button is-outlined" @click="reset">Reset</a>
+            </p>
+          </span>
+        </div>
+     </div>
+
     </div>
     <progress class="progress is-success is-small" value="100" max="100">100%</progress>
   </div>
 
-  <div class="level">
+  <!--<div class="level">
     <div class="level-left"></div>
     <div class="level-right bottom-menu">
       <span class="nav-item">
         <p class="level-item">
-          <a :class="[{'is-loading': loading}, ' button is-outlined']" @click.capture="getQuiz">Play</a>
+          <a :class="[{'is-loading': loading}, ' button is-outlined']" @click="getQuiz">{{ currentQuestion < 1 ? 'Play' : 'Next' }}</a>
           <a class="button is-outlined" @click="reset">Reset</a>
         </p>
       </span>
     </div>
-  </div>
+  </div>-->
 </div>
 </template>
 
@@ -34,7 +61,9 @@ export default {
     return {
       loading: false,
       questionHistory: [],
-      currentQuestion: null
+      currentQuestion: null,
+      userAnswer: '',
+      answers: ['A', 'B', 'C', 'D']
     }
   },
   methods: {
