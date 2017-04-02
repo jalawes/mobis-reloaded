@@ -22,6 +22,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'bio' => $faker->paragraph(3, true),
+
+        'share_stats' => true,
     ];
 });
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
@@ -31,6 +33,6 @@ $factory->define(App\Question::class, function (Faker\Generator $faker) {
         'difficulty' => 'easy',
         'problem' => $faker->sentence(10, true),
         'answer' => $faker->word,
-        'creator' => $faker->name
+        'creator' => $faker->name,
     ];
 });

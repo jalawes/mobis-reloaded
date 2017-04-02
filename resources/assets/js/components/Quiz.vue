@@ -2,6 +2,8 @@
 <div class="content">
   <div>
 
+    <p><strong>Status</strong>: <span :class="[{ 'is-success': !loading }]">{{ feedback }}</span></p>
+    <progress class="progress is-success is-small" :value="timer" :max="timerMax">{{ timer }}</progress>
     <div class="box">
       <div class="inner-box">
         <div v-show="!loading">
@@ -9,44 +11,31 @@
         </div>
       </div>
 
-      <div class="level">
-        <div class="level-left"></div>
-        <div class="level-right">
-          <span class="nav-item">
-            <p class="level-item">
-              <a :class="[{'is-loading': loading}, {'is-disabled': !currentQuestion}, 'button is-outlined']" @click="answer" v-for="answer in answers">{{ answer }}</a>
-            </p>
-          </span>
+    </div>
+    <nav class="level">
+      <div class="level-item has-text-centered" v-for="(answer, index) in answers">
+        <div>
+          <p class="heading">
+            <a :class="[{'is-loading': loading}, {'is-disabled': !currentQuestion}, 'button is-outlined']" @click="inputAnswer(index)">{{ answer }}</a>
+          </p>
         </div>
       </div>
+    </nav>
 
-      <div class="level">
+    <div class="level">
         <div class="level-left"></div>
         <div class="level-right bottom-menu">
           <span class="nav-item">
             <p class="level-item">
-              <a :class="[{'is-loading': loading}, ' button is-outlined']" @click="getQuiz">{{ currentQuestion < 1 ? 'Play' : 'Next' }}</a>
-              <a class="button is-outlined" @click="reset">Reset</a>
+              <a :class="[{'is-loading': loading}, {'is-disabled': currentQuestion}, ' button is-outlined']" @click="getAnswer">Play</a>
+              <a :class="[{'is-disabled': !loading && !currentQuestion}, 'button is-outlined']" @click="reset">Reset</a>
             </p>
           </span>
         </div>
      </div>
 
-    </div>
-    <progress class="progress is-success is-small" value="100" max="100">100%</progress>
   </div>
 
-  <!--<div class="level">
-    <div class="level-left"></div>
-    <div class="level-right bottom-menu">
-      <span class="nav-item">
-        <p class="level-item">
-          <a :class="[{'is-loading': loading}, ' button is-outlined']" @click="getQuiz">{{ currentQuestion < 1 ? 'Play' : 'Next' }}</a>
-          <a class="button is-outlined" @click="reset">Reset</a>
-        </p>
-      </span>
-    </div>
-  </div>-->
 </div>
 </template>
 
@@ -63,7 +52,15 @@ export default {
       questionHistory: [],
       currentQuestion: null,
       userAnswer: '',
-      answers: ['A', 'B', 'C', 'D']
+      answers: {
+        A: 'answer',
+        B: 'answer',
+        C: 'answer',
+        D: 'answer',
+      },
+      timer: 0,
+      timerMax: 30,
+      feedback: 'Ready to start',
     }
   },
   methods: {
@@ -72,7 +69,15 @@ export default {
       this.questionHistory = []
       this.currentQuestion = null
       this.loading = false
+      this.feedback = 'Ready to start'
+      this.timer = 0
     },
+    getAnswer: _.debounce(
+      function () {
+        this.feedback = 'Thinking...'
+        this.getQuiz()
+      }
+    ),
     getQuiz () {
       this.loading = true
       this.currentQuestion = {}
@@ -80,12 +85,32 @@ export default {
         .then(response => {
           this.questionHistory.push(response.data)
           this.loading = false
+          this.feedback = 'Waiting for user...'
+          this.timer = this.timerMax
+          this.startTimer()
         })
         .then(this.viewCurrentProblem) // load next problem into dom
         .catch(errors => console.log(errors))
     },
-    viewCurrentProblem () {
-      return this.currentQuestion = this.questionHistory[this.questionHistory.length - 1] // update latest problem
+    inputAnswer (answer) {
+      this.loading = true
+      console.log('answered', answer)
+      this.getQuiz()
+    },
+    startTimer () {
+      let vm = this
+      setTimeout(() => {
+        if (vm.timer <= 0 || vm.loading == true) {
+          vm.feedback = 'Failed to answer'
+          return vm.reset
+        }
+        if (!vm.currentQuestion) { // stop timer if no question loaded
+          return vm.reset
+        } else {
+          vm.timer = vm.timer - 0.01
+          vm.startTimer()
+        }
+      }, 10)
     }
   }
 }

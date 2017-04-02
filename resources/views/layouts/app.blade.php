@@ -51,6 +51,7 @@
                     <a class="nav-item" href="{{ route('login') }}">Login</a>
                     <a class="nav-item" href="{{ route('register') }}">Register</a>
                 @elseif (Auth::check())
+                    <a class="nav-item" href="/users/">Leader Board</a>
                     <a class="nav-item" href="/quiz/">Quiz</a>
                     <a class="nav-item" href="/users/{{ Auth::user()->id }}">Profile</a>
                     <a class="nav-item" href="/logout">Log Out</a>

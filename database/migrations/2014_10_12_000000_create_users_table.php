@@ -22,6 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->text('bio');
 
+            $table->integer('points')->unsigned()->default(0);
+            $table->boolean('share_stats')->default(true);
+
             $table->rememberToken();
             $table->timestamps();
         });

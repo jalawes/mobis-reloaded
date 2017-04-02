@@ -18,6 +18,9 @@ class UsersTableSeeder extends Seeder
             'email' => 'jamal@jamal.com',
             'password' => bcrypt('jamal'),
             'bio' => 'Creator of The Mobis: Reloaded',
+
+            'points' => 0,
+            'share_stats' => true,
         ]);
 
         $users = factory(App\User::class, 10)->create();
