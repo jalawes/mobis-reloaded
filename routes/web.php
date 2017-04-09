@@ -11,6 +11,7 @@ Route::get('logout', function () {
 
 Route::get('home', 'HomeController@index')->name('home');
 Route::get('quiz', 'QuizController@index')->name('quiz');
+Route::resource('test', 'TestController');
 Route::resource('users', 'UserController');
 
 /////////////////////////////////////////////////////////////////
@@ -18,4 +19,5 @@ Route::resource('users', 'UserController');
 /////////////////////////////////////////////////////////////////
 Route::group(['prefix' => 'api'], function () {
     Route::resource('quiz', 'QuestionController');
+    Route::get('test', 'TestController@getTest');
 });

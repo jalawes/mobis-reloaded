@@ -1,9 +1,9 @@
 <?php
 
-use App\Question;
+use App\Test;
 use Illuminate\Database\Seeder;
 
-class QuestionsTableSeeder extends Seeder
+class TestTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +12,7 @@ class QuestionsTableSeeder extends Seeder
      */
     public function run()
     {
-        Question::truncate();
-        $questions = factory(App\Question::class, 3)->make();
+        Test::truncate();
+        $test = factory(Test::class, 10)->create();
     }
 }

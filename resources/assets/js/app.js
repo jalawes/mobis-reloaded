@@ -13,8 +13,7 @@ require('./bootstrap');
 Vue.component('quiz', require('./components/Quiz'));
 Vue.component('profile', require('./components/Profile'));
 Vue.component('LoadingModal', require('./components/LoadingModal'));
-// Vue.component('hud', require('./components/Hud'));
-// Vue.component('mobis-question', require('./components/MobisQuestion'));
+Vue.component('TypeTest', require('./components/TypeTest'));
 
 const app = new Vue({
     el: '#app'

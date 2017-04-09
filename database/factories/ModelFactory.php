@@ -37,3 +37,11 @@ $factory->define(App\Question::class, function (Faker\Generator $faker) {
         'creator' => $faker->name,
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Test::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->word,
+        'text' => $faker->paragraphs(3, true),
+    ];
+});

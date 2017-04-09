@@ -52,16 +52,19 @@
                     <a class="nav-item" href="{{ route('register') }}">Register</a>
                 @elseif (Auth::check())
                     <a class="nav-item" href="/users/">Leader Board</a>
+                    <a class="nav-item" href="/test/">Typing Test</a>
                     <a class="nav-item" href="/quiz/">Quiz</a>
                     <a class="nav-item" href="/users/{{ Auth::user()->id }}">Profile</a>
                     <a class="nav-item" href="/logout">Log Out</a>
                 @endif
             </div>
         </nav>
+
         <div class="container">
-        @yield('content')
+            @yield('content')
         </div>
     </div>
+
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

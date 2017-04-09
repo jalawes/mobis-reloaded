@@ -14,7 +14,6 @@
           <p>{{ currentQuestion }}</p>
         </div>
       </div>
-
     </div>
     <nav class="level">
       <div

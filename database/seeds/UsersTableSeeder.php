@@ -12,6 +12,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        User::truncate();
         $user = User::create([
             'first_name' => 'Jamal',
             'last_name' => 'Alawes',
@@ -20,6 +21,7 @@ class UsersTableSeeder extends Seeder
             'bio' => 'Creator of The Mobis: Reloaded',
 
             'points' => 0,
+            'wpm' => 102,
             'share_stats' => true,
         ]);
 
