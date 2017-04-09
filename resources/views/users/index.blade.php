@@ -11,6 +11,7 @@
                 <tr>
                     <th>Rank</th>
                     <th>Username</th>
+                    <th>WPM</th>
                     <th>Points</th>
                 </tr>
             </thead>
@@ -20,6 +21,7 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td><a href="#">{{ $user->first_name }} {{ $user->last_name }}</a></td>
+                            <td>{{ $user->wpm }}</td>
                             <td>{{ $user->points }}</td>
                         </tr>
                     @endif

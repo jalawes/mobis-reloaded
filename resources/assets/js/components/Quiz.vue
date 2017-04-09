@@ -1,9 +1,13 @@
 <template>
 <div class="content">
   <div>
-
     <p><strong>Status</strong>: <span :class="[{ 'is-success': !loading }]">{{ feedback }}</span></p>
-    <progress class="progress is-success is-small" :value="timer" :max="timerMax">{{ timer }}</progress>
+    <progress
+      class="progress is-success is-small"
+      :max="timerMax"
+      :value="timer">
+      {{ timer }}
+    </progress>
     <div class="box">
       <div class="inner-box">
         <div v-show="!loading">
@@ -13,10 +17,16 @@
 
     </div>
     <nav class="level">
-      <div class="level-item has-text-centered" v-for="(answer, index) in answers">
+      <div
+        class="level-item has-text-centered"
+        v-for="(answer, index) in answers"
+      >
         <div>
           <p class="heading">
-            <a :class="[{'is-loading': loading}, {'is-disabled': !currentQuestion}, 'button is-outlined']" @click="inputAnswer(index)">{{ answer }}</a>
+            <a :class="[{'is-loading': loading}, {'is-disabled': !currentQuestion}, 'button is-outlined']"
+              @click="inputAnswer(index)">
+              {{ answer }}
+            </a>
           </p>
         </div>
       </div>
@@ -27,8 +37,14 @@
         <div class="level-right bottom-menu">
           <span class="nav-item">
             <p class="level-item">
-              <a :class="[{'is-loading': loading}, {'is-disabled': currentQuestion}, ' button is-outlined']" @click="getAnswer">Play</a>
-              <a :class="[{'is-disabled': !loading && !currentQuestion}, 'button is-outlined']" @click="reset">Reset</a>
+              <a :class="[{'is-loading': loading}, {'is-disabled': currentQuestion}, ' button is-outlined']"
+                @click="getAnswer">
+                Play
+              </a>
+              <a :class="[{'is-disabled': !loading && !currentQuestion}, 'button is-outlined']"
+                @click="reset">
+                Reset
+              </a>
             </p>
           </span>
         </div>
@@ -66,11 +82,11 @@ export default {
   methods: {
     reset () {
       this.loading = true
+      this.timer = this.timerMax
       this.questionHistory = []
       this.currentQuestion = null
       this.loading = false
       this.feedback = 'Ready to start'
-      this.timer = 0
     },
     getAnswer: _.debounce(
       function () {
@@ -102,10 +118,10 @@ export default {
       setTimeout(() => {
         if (vm.timer <= 0 || vm.loading == true) {
           vm.feedback = 'Failed to answer'
-          return vm.reset
+          vm.reset()
         }
         if (!vm.currentQuestion) { // stop timer if no question loaded
-          return vm.reset
+          vm.reset()
         } else {
           vm.timer = vm.timer - 0.01
           vm.startTimer()
