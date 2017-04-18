@@ -2,13 +2,14 @@
   <div class="section">
     <p>
       <strong>Status</strong>:
-      <span :class="[{ 'is-success': !loading }]">{{ feedback }}</span>
+      <span :class="[{ 'activeWord': !loading }]">{{ feedback }}</span>
       <br>
-      <span>Currently on word: {{ wordIndex }}.</span>
-    </p><br>
+      <span>Currently on word: {{ wordIndex }}</span>
+    </p>
+    <br>
     <div class="box">
       <div v-show="!loading">
-        <div class="content is-large">
+        <div class="content">
           <p><strong>{{ typingtest.title }}</strong></p>
           <br><span :class="{'activeWord': wordIndex == $word}" v-for="(word, $word) in wordList">{{ word }} </span>
         </div>
@@ -17,11 +18,8 @@
     <div class="field">
       <p class="control">
         <input
-          @keydown="forward"
-          @keydown.delete="backward"
-          @keydown.space="nextWord"
           type="text"
-          class="input is-large"
+          class="input"
           placeholder="Type the above text here to start"
           v-model="userinput"
         >
@@ -66,17 +64,6 @@ export default {
         })
         .then(this.viewCurrentProblem) // load next problem into dom
         .catch(errors => console.log(errors))
-      },
-      forward () {
-        console.log(event.key)
-      },
-      backward () {
-        console.log(event.key)
-        this.wordIndex = this.wordIndex - 1
-      },
-      nextWord () {
-        this.typedWords.push(this.userInput)
-        this.wordIndex = this.wordIndex + 1
       },
     },
     computed: {
