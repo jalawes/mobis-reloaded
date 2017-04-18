@@ -22,6 +22,9 @@ class CreateQuestionsTable extends Migration
             $table->text('difficulty');
             $table->string('problem');
             $table->string('answer');
+            $table->string('wrong_one');
+            $table->string('wrong_two');
+            $table->string('wrong_three');
             $table->string('creator');
 
             $table->timestamps();
