@@ -3,19 +3,23 @@
     <p>
       <strong>Status</strong>:
       <span :class="[{ 'is-success': !loading }]">{{ feedback }}</span>
+      <br>
+      <span>Currently on word: {{ wordIndex }}.</span>
     </p><br>
     <div class="box">
       <div v-show="!loading">
         <div class="content is-large">
           <p><strong>{{ typingtest.title }}</strong></p>
-          <p class="is-unselectable">{{ typingtest.text }}</p>
+          <br><span :class="{'activeWord': wordIndex == $word}" v-for="(word, $word) in wordList">{{ word }} </span>
         </div>
       </div>
     </div>
     <div class="field">
       <p class="control">
         <input
-          @keydown="usertyped"
+          @keydown="forward"
+          @keydown.delete="backward"
+          @keydown.space="nextWord"
           type="text"
           class="input is-large"
           placeholder="Type the above text here to start"
@@ -30,46 +34,58 @@
 <script>
 export default {
     name: 'Typetypingtest',
-    props: {
-        //
-    },
     data () {
       return {
-        typingtest: [],
-        loading: false,
         feedback: '',
-        wpm: 0,
         goal: 100,
+        loading: false,
+        typingtest: [],
         userinput: '',
+        typedWords: [],
+        wordIndex: 0,
+        wpm: 0,
       }
     },
     methods: {
-        gettypingtest () {
+      gettypingtest () {
         this.loading = true
         this.typingtest = {
           title: '',
           text: ''
-        }
-        this.feedback = 'Getting a new test...'
-        axios.get('/api/test')
-          .then(response => {
-            console.log(response.data)
-            this.typingtest = {
-              title: response.data.title,
-              text: response.data.text
-            }
-            this.loading = false
-            this.feedback = 'Ready to start!'
-          })
-          .then(this.viewCurrentProblem) // load next problem into dom
-          .catch(errors => console.log(errors))
-      },
-      usertyped () {
-        console.log(event.key)
       }
+      this.feedback = 'Getting a new test...'
+      axios.get('/api/test')
+        .then(response => {
+          console.log(response.data)
+          this.typingtest = {
+            title: response.data.title,
+            text: response.data.text
+          }
+          this.loading = false
+          this.feedback = 'Ready to start!'
+        })
+        .then(this.viewCurrentProblem) // load next problem into dom
+        .catch(errors => console.log(errors))
+      },
+      forward () {
+        console.log(event.key)
+      },
+      backward () {
+        console.log(event.key)
+        this.wordIndex = this.wordIndex - 1
+      },
+      nextWord () {
+        this.typedWords.push(this.userInput)
+        this.wordIndex = this.wordIndex + 1
+      },
     },
     computed: {
-        //
+      wordList () {
+        return this.typingtest.text.split(' ')
+      },
+      currentWord () {
+        return this.wordList[this.wordIndex]
+      }
     },
     created () {
       this.gettypingtest()
@@ -81,5 +97,8 @@ export default {
 .inner-box {
   width: 80vw;
   height: 150px;
+}
+.activeWord {
+  color: #34E500;
 }
 </style>
