@@ -1,7 +1,9 @@
 @extends('layouts.basic')
 @section ('title', 'Login')
 @section('content')
-<section class="hero is-fullheight is-dark is-bold">
+
+<section class="is-bold">
+    <matrix></matrix>
     <div class="hero-body">
         <div class="column is-one-third is-offset-one-third has-text-centered">
             <img width="348px"

@@ -2,7 +2,8 @@
 @section ('title', 'Welcome')
 
 @section('content')
-<section class="hero is-fullheight is-dark is-bold is-matrix">
+<matrix></matrix>
+<section class="is-matrix">
     <div class="hero-body">
         <div class="column has-text-centered">
             <img width="348px"

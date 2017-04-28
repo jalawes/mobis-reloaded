@@ -24,7 +24,7 @@
 </head>
 <body>
     <div id="app">
-    @yield('content')
+        @yield('content')
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
