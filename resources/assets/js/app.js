@@ -10,10 +10,18 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+/**
+ * App Components
+ */
 Vue.component('quiz', require('./components/Quiz'));
 Vue.component('profile', require('./components/Profile'));
 Vue.component('LoadingModal', require('./components/LoadingModal'));
 Vue.component('TypeTest', require('./components/TypeTest'));
+
+/**
+ * Matrix BG
+ */
+Vue.component('Matrix', require('./components/Matrix'));
 
 const app = new Vue({
     el: '#app'
