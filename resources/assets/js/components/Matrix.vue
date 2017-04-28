@@ -23,11 +23,11 @@ export default {
     }
   },
   methods: {
-    canvasSupport (canvas) {
+    matrixSupport (canvas) {
       return !!canvas.getContext
     },
-    canvasApp () {
-      if (!this.canvasSupport(this.canvas)) {
+    matrixApp () {
+      if (!this.matrixSupport(this.canvas)) {
         return
       }
       this.runMatrix()
@@ -55,16 +55,17 @@ export default {
     }
   },
   mounted () {
-    console.log('loaded and ready!')
-    this.canvasApp()
+    this.matrixApp()
   }
 }
 </script>
 
 <style scoped>
 .matrix {
-  width: 100vw;
-  height: 100vh;
+  position:absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
