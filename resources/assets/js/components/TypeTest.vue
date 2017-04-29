@@ -18,13 +18,14 @@
     <div class="field">
       <p class="control">
         <input
+          @keydown.space="spacebar"
           type="text"
           class="input"
           placeholder="Type the above text here to start"
-          v-model="userinput"
+          v-model="userInput"
         >
       </p>
-      <p>{{ userinput }}</p>
+      <p>{{ userInput }}</p>
     </div>
   </div>
 </template>
@@ -34,13 +35,16 @@ export default {
     name: 'Typetypingtest',
     data () {
       return {
+        cpm: 0,
         feedback: '',
         goal: 100,
         loading: false,
         typingtest: [],
-        userinput: '',
+        userInput: '',
         typedWords: [],
         wordIndex: 0,
+        wordsIncorrect: 0,
+        wordsCorrect: 0,
         wpm: 0,
       }
     },
@@ -50,9 +54,9 @@ export default {
         this.typingtest = {
           title: '',
           text: ''
-      }
-      this.feedback = 'Getting a new test...'
-      axios.get('/api/test')
+        }
+        this.feedback = 'Getting a new test...'
+        axios.get('/api/test')
         .then(response => {
           console.log(response.data)
           this.typingtest = {
@@ -65,6 +69,29 @@ export default {
         .then(this.viewCurrentProblem) // load next problem into dom
         .catch(errors => console.log(errors))
       },
+      reset () {
+        this.loading = false
+        this.feedback = 'Ready to start!'
+        this.typingtest = {
+          text: '',
+          title: ''
+        }
+        this.userInput = ''
+        this.wordsCorrect = 0
+        this.wordsIncorrect = 0
+        this.cpm = 0
+        this.wpm = 0
+        this.gettypingtest()
+      },
+      spacebar () {
+        if (this.userInput == this.wordList[this.wordIndex]) {
+          console.log('user input matches word!')
+        } else {
+          console.log('user input does not match!')
+        }
+        this.wordIndex += 1
+        console.log('pressed space. increased wordIndex by 1. new word is ' + '\'' + this.wordList[this.wordIndex] + '\'')
+      }
     },
     computed: {
       wordList () {

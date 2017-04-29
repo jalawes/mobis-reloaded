@@ -14,7 +14,7 @@
             <div class="is-centered">
                 <ul>
                     @if (Auth::guest())
-                    <li><a class="is-outlined" href="/login">Sign In</a></li>
+                    <li><a class="button is-outlined" href="/login">Sign In</a></li>
                     @elseif (Auth::check())
                     <li class="is-active"><a href="/users/{{ Auth::user()->id }}">Profile</a></li>
                     <li class="is-active"><a href="/quiz">Quiz</a></li>
