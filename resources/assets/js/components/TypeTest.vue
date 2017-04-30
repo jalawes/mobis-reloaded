@@ -1,3 +1,4 @@
+<!--suppress SpellCheckingInspection -->
 <template>
   <div class="section">
     <p>
@@ -8,7 +9,7 @@
       <br>
       <span>Incorrect Words: {{ wordsIncorrect }}</span>
       <br>
-      <span>Currently on word: {{ wordIndex }}</span>
+      <span>Currently on word: {{ wordIndex }} of paragraph {{ paragraphIndex + 1}}</span>
       <br>
       <span>Correctly Typed Words: {{ correctWords }}</span>
       <br>
@@ -18,19 +19,13 @@
     <div class="box">
       <div v-show="!loading">
         <div class="content">
-          <pre>
-            <vue-markdown
-              id='test title'
-              :source="typingtest.title"
-              lang-prefix='language-javascript'
-            ></vue-markdown>
-            <hr>
-            <vue-markdown
-              id='test text'
-              :source="typingtest.text"
-              lang-prefix='language-javascript'
-            ></vue-markdown>
-          </pre>
+          <vue-markdown
+            id='test title'
+            :source="typingtest.title"
+            lang-prefix='language-javascript'
+          ></vue-markdown>
+          <hr>
+          <p v-for="paragraph in paragraphList">{{ paragraph }}</p>
         </div>
       </div>
     </div>
@@ -65,6 +60,7 @@ export default {
         incorrect: false,
         incorrectWords: [],
         loading: false,
+        paragraphIndex: 0,
         stopWatch: 60,
         typedWords: [],
         typingtest: [],
@@ -125,7 +121,6 @@ export default {
           this.loading = false
           this.feedback = 'Ready to start!'
         })
-        // .then(this.viewCurrentProblem)
         .catch(errors => console.log(errors))
       },
       keyPress () {
@@ -163,6 +158,12 @@ export default {
       currentWord () {
         return this.wordList[this.wordIndex]
       },
+      paragraphCount () {
+        return this.paragraphList.length
+      },
+      paragraphList () {
+        return this.typingtest.text.split(/\n/g)
+      },
       testTextCount () {
         return (this.typingtest.text).length
       },
@@ -187,7 +188,7 @@ export default {
   color: #34E500;
 }
 .content {
-  max-height: 50vh;
+  max-height: 300px;
   overflow-y: scroll;
   font-size: 14px;
 }
