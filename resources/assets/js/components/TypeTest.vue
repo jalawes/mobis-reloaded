@@ -26,6 +26,7 @@
     <div class="field">
       <p class="control">
         <input
+          @keydown="keyPress"
           @keydown.delete="backspace"
           @keydown.esc="reset"
           @keydown.space="spacebar"
@@ -117,6 +118,9 @@ export default {
         .then(this.viewCurrentProblem) // load next problem into dom
         .catch(errors => console.log(errors))
       },
+      keyPress () {
+        this.cpm += 1
+      },
       reset () {
         this.cpm = 0,
         this.feedback = 'Resetting the test...',
@@ -130,7 +134,6 @@ export default {
         this.wordIndex = 0,
         this.wordsIncorrect = 0,
         this.wordsCorrect = 0,
-        this.wpm = 0,
         this.gettypingtest()
       },
       spacebar () {
@@ -147,14 +150,20 @@ export default {
       }
     },
     computed: {
-      wordList () {
-        return this.typingtest.text.split(' ')
-      },
       currentWord () {
         return this.wordList[this.wordIndex]
       },
+      testTextCount () {
+        return (this.typingtest.text).length
+      },
       userInputWithoutSpaces () {
         return this.userInput.split(' ').join('')
+      },
+      wordList () {
+        return this.typingtest.text.split(' ')
+      },
+      wpm () {
+        return this.cpm / this.stopWatch
       }
     },
     created () {
