@@ -18,8 +18,16 @@
     <div class="box">
       <div v-show="!loading">
         <div class="content">
-          <p><strong>{{ typingtest.title }}</strong></p>
-          <br><span :class="[{'activeWord': wordIndex == $word}, {'typedWord': $word < wordIndex}]" v-for="(word, $word) in wordList">{{ word }} </span>
+          <p>
+            <strong>{{ typingtest.title }}</strong>
+          </p>
+          <br>
+          <span
+            :class="[{'activeWord': wordIndex == $word}, {'typedWord': $word < wordIndex}]"
+            v-if="word !== '<br>'"
+            v-for="(word, $word) in wordList"
+          >{{ word }} </span>
+          <br v-else>
         </div>
       </div>
     </div>
@@ -109,7 +117,7 @@ export default {
           console.log(response.data)
           this.typingtest = {
             title: response.data.title,
-            text: response.data.text.replace(/\n/g, "<br/>")
+            text: response.data.text.replace(/\n/g, " <br> ")
           }
           this.loading = false
           this.feedback = 'Ready to start!'
