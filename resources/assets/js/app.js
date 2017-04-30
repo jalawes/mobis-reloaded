@@ -4,6 +4,10 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 require('./bootstrap');
+
+import VueMarkdown from 'vue-markdown'
+Vue.component('VueMarkdown', VueMarkdown)
+// Vue.use(VueMarkdown)
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -17,6 +21,7 @@ Vue.component('quiz', require('./components/Quiz'));
 Vue.component('profile', require('./components/Profile'));
 Vue.component('LoadingModal', require('./components/LoadingModal'));
 Vue.component('TypeTest', require('./components/TypeTest'));
+// Vue.component('VueMarkdown');
 
 /**
  * Matrix BG
@@ -24,5 +29,6 @@ Vue.component('TypeTest', require('./components/TypeTest'));
 Vue.component('Matrix', require('./components/Matrix'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: VueMarkdown
 });

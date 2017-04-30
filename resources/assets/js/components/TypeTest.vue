@@ -19,15 +19,16 @@
       <div v-show="!loading">
         <div class="content">
           <p>
-            <strong>{{ typingtest.title }}</strong>
+            <vue-markdown
+              :source="typingtest.title"
+              lang-prefix="js"
+            ></vue-markdown>
           </p>
           <br>
-          <span
-            :class="[{'activeWord': wordIndex == $word}, {'typedWord': $word < wordIndex}]"
-            v-if="word !== '<br>'"
-            v-for="(word, $word) in wordList"
-          >{{ word }} </span>
-          <br v-else>
+          <vue-markdown
+            :source="typingtest.text"
+            lang-prefix="js"
+          ></vue-markdown>
         </div>
       </div>
     </div>
@@ -117,7 +118,7 @@ export default {
           console.log(response.data)
           this.typingtest = {
             title: response.data.title,
-            text: response.data.text.replace(/\n/g, " <br> ")
+            text: response.data.text
           }
           this.loading = false
           this.feedback = 'Ready to start!'
