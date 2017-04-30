@@ -31,7 +31,7 @@
           @keydown.space="spacebar"
           type="text"
           :class="[{'is-danger is-wrong': incorrect}, 'input']"
-          :placeholder="wordIndex = 0 ? 'Type the above text here to start' : ''"
+          :placeholder="wordIndex === 0 ? 'Type the above text here to start' : null"
           v-model.trim="userInput"
         >
       </p>
@@ -53,10 +53,10 @@ export default {
         incorrect: false,
         incorrectWords: [],
         loading: false,
+        stopWatch: 60,
+        typedWords: [],
         typingtest: [],
         userInput: '',
-        typedWords: [],
-        stopWatch: 60,
         wordIndex: 0,
         wordsIncorrect: 0,
         wordsCorrect: 0,
@@ -64,13 +64,38 @@ export default {
       }
     },
     methods: {
+      addCorrectWord () {
+        this.incorrect = false
+        this.wordsCorrect += 1
+        this.wordIndex += 1
+        this.userInput = ''
+        if (this.correctWords.includes(this.currentWord)) {
+          console.log(this.currentWord, 'is already an correct word')
+        } else {
+          console.log(this.currentWord, '+++++ added to incorrect words')
+        }
+      },
+      addIncorrectWord () {
+        this.incorrect = true
+        this.wordsIncorrect += 1
+        if (this.incorrectWords.includes(this.currentWord)) {
+          console.log(this.currentWord, 'is already an incorrect word')
+        } else {
+          this.incorrectWords.push(this.currentWord)
+          console.log(this.currentWord, '----- added to incorrect words')
+        }
+      },
       backspace () {
         console.log('user hit backspace')
-        if (!!this.userInput) {
-          console.log('increasing backspace count by 1')
+        if (!this.userInputWithoutSpaces) {
+          // this.userInput = ''
+          return
+        }
+        if (!!this.userInput) { // if user input is truthy, then do something
+          console.log('increasing backspace count by 1') // backspace should reduce CPM --> ideally, no user should use the backspace
           this.backspaceCount += 1
         }
-        console.log('user input is currently:::: ' + this.userInput)
+        console.log('user input ===== ' + this.userInput)
       },
       gettypingtest () {
         this.loading = true
@@ -109,23 +134,16 @@ export default {
         this.gettypingtest()
       },
       spacebar () {
-        if (!this.userInput) {
-          return;
+        if (!this.userInputWithoutSpaces) {
+          this.userInput = this.userInputWithoutSpaces
+          return
         }
-        if (this.userInput == this.wordList[this.wordIndex]) {
-          console.log('user input matches word!')
-          this.incorrect = false
-          this.correctWords.push(this.wordList[this.wordIndex])
-          this.wordsCorrect += 1
-          this.wordIndex += 1
-          this.userInput = ''
+        if (this.userInput == this.currentWord) {
+          this.addCorrectWord()
         } else {
-          console.log('user input does not match!')
-          this.incorrectWords.push(this.wordList[this.wordIndex])
-          this.wordsIncorrect += 1
-          this.incorrect = true
+          this.addIncorrectWord()
         }
-        console.log('pressed space. increased wordIndex by 1. new word is ' + '\'' + this.wordList[this.wordIndex] + '\'')
+        console.log('pressed space. increased wordIndex by 1. new word is ' + '\'' + this.currentWord + '\'')
       }
     },
     computed: {
@@ -134,6 +152,9 @@ export default {
       },
       currentWord () {
         return this.wordList[this.wordIndex]
+      },
+      userInputWithoutSpaces () {
+        return this.userInput.split(' ').join('')
       }
     },
     created () {
@@ -158,6 +179,7 @@ export default {
   text-decoration: underline;
 }
 .is-wrong {
-  background-color: red * 0.1;
+  background-color: red * 0.01;
+  color: white;
 }
 </style>
