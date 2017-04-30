@@ -25,6 +25,7 @@
 
 <body>
     <div id="app">
+    <matrix></matrix>
         <nav class="nav">
             <div class="nav-left">
                 <a class="nav-item" href="/">
@@ -60,7 +61,7 @@
             </div>
         </nav>
 
-        <div class="container">
+        <div class="container" style="margin-top:20px;">
             @yield('content')
         </div>
     </div>

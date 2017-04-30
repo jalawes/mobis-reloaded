@@ -3,7 +3,6 @@
 @section('content')
 
 <section class="is-bold">
-    <matrix></matrix>
     <div class="hero-body">
         <div class="column is-one-third is-offset-one-third has-text-centered">
             <img width="348px"
