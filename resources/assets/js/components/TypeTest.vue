@@ -18,17 +18,19 @@
     <div class="box">
       <div v-show="!loading">
         <div class="content">
-          <p>
+          <pre>
             <vue-markdown
+              id='test title'
               :source="typingtest.title"
-              lang-prefix="js"
+              lang-prefix='language-javascript'
             ></vue-markdown>
-          </p>
-          <br>
-          <vue-markdown
-            :source="typingtest.text"
-            lang-prefix="js"
-          ></vue-markdown>
+            <hr>
+            <vue-markdown
+              id='test text'
+              :source="typingtest.text"
+              lang-prefix='language-javascript'
+            ></vue-markdown>
+          </pre>
         </div>
       </div>
     </div>
@@ -183,6 +185,11 @@ export default {
 <style scoped lang="scss">
 .activeWord {
   color: #34E500;
+}
+.content {
+  max-height: 50vh;
+  overflow-y: scroll;
+  font-size: 14px;
 }
 .typedWord {
   color: gray;

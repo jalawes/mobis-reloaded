@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 require('./bootstrap');
+require('./prism');
 
 import VueMarkdown from 'vue-markdown'
 Vue.component('VueMarkdown', VueMarkdown)
