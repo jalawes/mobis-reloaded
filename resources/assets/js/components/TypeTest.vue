@@ -25,7 +25,9 @@
             lang-prefix='language-javascript'
           ></vue-markdown>
           <hr>
-          <p v-for="paragraph in paragraphList">{{ paragraph }}</p>
+          <!-- current paragraph-->
+          <p>{{ currentParagraph }}</p>
+          <p v-for="remainingParagraph, index in paragraphList" v-show="!!paragraphList[index + 1]">{{ paragraphList[index + 1] }}</p>
         </div>
       </div>
     </div>
@@ -155,20 +157,36 @@ export default {
       }
     },
     computed: {
+      currentParagraph () {
+        if (!!this.paragraphList) {
+          return this.paragraphList[this.paragraphIndex]
+        }
+      },
       currentWord () {
-        return this.wordList[this.wordIndex]
+        if (!!this.wordList) {
+          return this.wordList[this.wordIndex]
+        }
       },
       paragraphCount () {
-        return this.paragraphList.length
+        if (!!this.paragraphList) {
+          return this.paragraphList.length
+        }
       },
       paragraphList () {
-        return this.typingtest.text.split(/\n/g)
+        if (!!this.typingtest.text) {
+          return this.typingtest.text.split(/\n/g)
+        }
       },
       testTextCount () {
-        return (this.typingtest.text).length
+        if (this.typingtest.text) {
+          return (this.typingtest.text).length
+        }
       },
       userInputWithoutSpaces () {
         return this.userInput.split(' ').join('')
+      },
+      wordsInCurrentParagraph () {
+        return this.currentParagraph.split(' ')
       },
       wordList () {
         return this.typingtest.text.split(' ')
