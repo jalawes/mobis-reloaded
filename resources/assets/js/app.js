@@ -22,7 +22,6 @@ Vue.component('quiz', require('./components/Quiz'));
 Vue.component('profile', require('./components/Profile'));
 Vue.component('LoadingModal', require('./components/LoadingModal'));
 Vue.component('TypeTest', require('./components/TypeTest'));
-// Vue.component('VueMarkdown');
 
 /**
  * Matrix BG
@@ -31,5 +30,5 @@ Vue.component('Matrix', require('./components/Matrix'));
 
 const app = new Vue({
     el: '#app',
-    components: VueMarkdown
+    name: 'MobisReloaded',
 });

@@ -1,13 +1,18 @@
 <template>
-  <canvas class="matrix" id="myCanvas" width="600" height="300"></canvas>
+  <canvas class="matrix" id="mobis-matrix" width="600" height="300"></canvas>
 </template>
 
 <script>
 export default {
-  name: 'Matrix',
+  name: 'MobisMatrix',
+  data () {
+    return {
+      //
+    }
+  },
   computed: {
     canvas () {
-      return document.getElementById('myCanvas')
+      return document.getElementById('mobis-matrix')
     },
     ctx () {
       return this.canvas.getContext('2d')

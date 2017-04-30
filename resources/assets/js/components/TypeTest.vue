@@ -1,4 +1,3 @@
-<!--suppress SpellCheckingInspection -->
 <template>
   <div class="section">
     <p>
@@ -9,7 +8,7 @@
       <br>
       <span>Incorrect Words: {{ wordsIncorrect }}</span>
       <br>
-      <span>Currently on word: {{ wordIndex }} of paragraph {{ paragraphIndex + 1}}</span>
+      <span>Word: {{ wordIndex }} of paragraph {{ paragraphIndex + 1}} <em>(words remaining: {{ currentParagraph.length - wordIndex }})</em></span>
       <br>
       <span>Correctly Typed Words: {{ correctWords }}</span>
       <br>
@@ -19,15 +18,10 @@
     <div class="box">
       <div v-show="!loading">
         <div class="content">
-          <vue-markdown
-            id='test title'
-            :source="typingtest.title"
-            lang-prefix='language-javascript'
-          ></vue-markdown>
           <hr>
           <!-- current paragraph-->
           <p>{{ currentParagraph }}</p>
-          <p v-for="remainingParagraph, index in paragraphList" v-show="!!paragraphList[index + 1]">{{ paragraphList[index + 1] }}</p>
+          <p v-for="remainingParagraph, $paragraphIndex in paragraphList" v-show="!!paragraphList[$paragraphIndex + 1]">{{ paragraphList[$paragraphIndex + 1] }}</p>
         </div>
       </div>
     </div>
@@ -51,7 +45,7 @@
 
 <script>
 export default {
-    name: 'Typetypingtest',
+    name: 'Typingtest',
     data () {
       return {
         backspaceCount: 0,
@@ -80,9 +74,9 @@ export default {
         this.wordIndex += 1
         this.userInput = ''
         if (this.correctWords.includes(this.currentWord)) {
-          console.log(this.currentWord, 'is already an correct word')
+          console.log(this.currentWord, 'is already an correct word. ignoring.')
         } else {
-          console.log(this.currentWord, '+++++ added to incorrect words')
+          console.log(this.currentWord, '+++++ added to correct words!')
         }
       },
       addIncorrectWord () {
