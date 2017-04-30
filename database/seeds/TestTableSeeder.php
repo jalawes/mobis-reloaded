@@ -5,32 +5,18 @@ use Illuminate\Database\Seeder;
 
 class TestTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
-    {
-        Test::truncate();
-        $test = factory(Test::class, 10)->create();
-
-        $test = Test::create([
-            'title' => '# You Don\'t Know JS Types and Grammar Pt. 1',
-            'text' => 'In JavaScript, variables don\'t have types - values have types. Variables can hold any value, at any time.
-
-Another way to think about JS types is that JS doesn\'t have "type enforcement," in that the engine doesn\'t insist that a variable always holds values of the same initial type that it starts out with. A variable can, in one assignment statement, hold a string, and in the next hold a number, and so on.
-
-The value 42 has an intrinsic type of number, and its type cannot be changed. Another value, like "42" with the string type, can be created from the number value 42 through a process called coercion (see Chapter 4).
-
-If you use typeof against a variable, it\'s not asking "What\'s the type of the variable?" as it may seem, since JS variables have no types. Instead, it\'s asking "What\'s the type of the value in the variable?"
-    var a = 42;
-    typeof a; // "number"
-    a = true;
-    typeof a; // "boolean"
-The typeof operator always returns a string. So: typeof typeof 42; // "string"
-The first typeof 42 returns "number", and typeof "number" is "string".
-'
-        ]);
+ /**
+  * Run the database seeds.
+  *
+  * @return void
+  */
+ public function run()
+ {
+    Test::truncate();
+    $test = factory(Test::class, 10)->create();
+    $new_test = Test::create([
+        'title' => 'Your Best Life Now: 7 Steps to Living at Your Full Potential',
+        'text' => 'I heard a story about a man on vacation in Hawaii with his wife. He was a good man who had achieved a modest measure of success, but he was coasting along, thinking that he’d already reached his limits in life. One day, a friend was driving the couple around the island, showing them the sights. They stopped to admire a gorgeous house set high on a hill. The property was replete with beautiful palm trees and lush green gardens in a picturesque, peaceful setting with a panoramic view overlooking the ocean. As the man gazed at the magnificent home, he commented to his wife and friend, "I can’t even imagine living in a place like that." Right there, something inside him said, Don\'t worry. You won\'t. You will never live in a great place like that. Startled at his own thoughts, he asked himself, What do you mean? As long as you can\'t imagine it, as long as you can\'t see it, then it is not going to happen for you. The man correctly realized that his own thoughts and attitudes were condemning him to mediocrity. He determined then and there to start believing better of himself, and believing better of God. It\'s the same way with us. We have to conceive it on the inside before we\'re ever going to receive it on the outside. If you don\'t think you can have something good, then you never will. The barrier is in your mind. It\'s not God\'s lack of resources or your lack of talent that prevents you from prospering. Your own wrong thinking can keep you from God\'s best. Your own wrong thinking can keep you from God\'s best. You, too, may have assumed that you\'ve already peaked, that you\'ve reached your limits in life, that you will never be more successful. I\'ll never achieve significance, do something meaningful, or enjoy the good things in life that I\'ve seen others enjoy. Sad to say, you are exactly right... unless you are willing to change your thinking. That\'s why the first step to living at your full potential is to enlarge your vision. To live your best life now, you must start looking at life through eyes of faith, seeing yourself rising to new levels. See your business taking off. See your marriage restored. See your family prospering. See your dreams coming to pass. You must conceive it and believe it is possible if you ever hope to experience it. To conceive it, you must have an image on the inside of the life you want to live on the outside. This image has to become a part of you, in your thoughts, your conversation, deep down in your subconscious mind, in your actions, in every part of your being. Envision Your Success From the time she was a little girl, Tara Holland dreamed of becoming Miss America. In 1994, she entered the Miss Florida pageant and won the title of first runner-up. She decided to try again the following year. She entered the same contest, and once again, won the prize as first runner-up. Tara was tempted to get down and discouraged, but she didn\'t do that. She stayed focused on her goal. She decided she needed to change her environment, so she moved to Kansas, and in 1997, she entered the Miss Kansas pageant and won the title. That same year, she went on to be crowned Miss America. Tara Holland saw her dream come to pass. In an interview after the pageant, someone asked Tara the secret to her success. She admitted that after she had lost twice in a row at the state-level competitions, she had been tempted to give up, but instead she went out and rented dozens of videos of local pageants, state pageants, Miss Teen, Miss Universe, Miss World—whatever she could find. She rented hundreds of videos of various pageants and watched them over and over again. As Tara watched each young woman crowned a winner, she pictured herself in that situation. She pictured herself receiving the crown. She pictured herself walking down the runway in victory. Time and time again she envisioned herself winning. Seeing herself as a winner, said Tara, was the key to her success. Another reporter asked her if she was nervous walking down the runway in front of millions of people watching on television and with the announcer singing the famous Miss America song. Tara\'s response was interesting. "No, I wasn\'t nervous at all," she said. "You see, I had walked down that runway thousands of times before." Have you ever walked down that runway? Have you ever seen yourself accomplishing your dreams? Do you keep that vision of victory in front of you? Tara Holland knew she would never be a winner until she first saw herself as a winner. She had to reprogram her mind, to rid herself as much as possible of the hurtful memories of losing. She had to replace that vision in her mind of herself as Miss Runner-up. She had to develop a can-do attitude. She saw herself stepping onto the winner\'s platform. She saw herself walking down that runway in victory. She created an environment of faith and success. What you keep before your eyes will affect you. You will produce what you\'re continually seeing in your mind. If you foster an image of defeat and failure, then you\'re going to live that kind of life. But if you develop an image of victory, success, health, abundance, joy, peace, and happiness, nothing on earth will be able to hold those things from you. Too many times we get stuck in a rut, thinking we\'ve reached our limits. We don\'t really stretch our faith; we don\'t believe for anything bigger. But God wants us to constantly be increasing, to be rising to new heights. He wants to increase you in His wisdom and help you to make better decisions.'
+    ]);
     }
 }

@@ -4,24 +4,28 @@
       <strong>Status</strong>:
       <span :class="[{ 'activeWord': !loading }]">{{ feedback }}</span>
       <br>
-      <span>Time Left: {{ stopWatch }}</span>
+      <span><strong>Time Left</strong>: {{ stopWatch }}</span>
       <br>
-      <span>Incorrect Words: {{ wordsIncorrect }}</span>
+      <span><strong>Incorrect Words</strong>: {{ wordsIncorrect }}</span>
       <br>
-      <span>Word: {{ wordIndex }} of paragraph {{ paragraphIndex + 1}} <em>(words remaining: {{ currentParagraph.length - wordIndex }})</em></span>
+      <span><strong>Word</strong>: {{ wordIndex }} of paragraph {{ paragraphIndex + 1}} (<span class="activeWord">{{ wordList[wordIndex] }})</span></span>
       <br>
-      <span>Correctly Typed Words: {{ correctWords }}</span>
+      <span><strong>Correctly Typed Words</strong>: {{ correctWords }}</span>
       <br>
-      <span>Incorrectly Typed Words: {{ incorrectWords }}</span>
+      <span><strong>Incorrectly Typed Words</strong>: {{ incorrectWords }}</span>
     </p>
     <br>
     <div class="box">
       <div v-show="!loading">
         <div class="content">
+          <h3>{{ typingtest.title }}</h3>
           <hr>
-          <!-- current paragraph-->
-          <p>{{ currentParagraph }}</p>
-          <p v-for="remainingParagraph, $paragraphIndex in paragraphList" v-show="!!paragraphList[$paragraphIndex + 1]">{{ paragraphList[$paragraphIndex + 1] }}</p>
+          <p>
+            <span
+              :class="[{ 'activeWord': wordIndex == $word }, { 'typedWord': $word < wordIndex }, {'incorrectWord': incorrectWords.includes(word)}]"
+              v-for="word, $word in wordList"
+            >{{ word }} </span>
+          </p>
         </div>
       </div>
     </div>
@@ -148,7 +152,8 @@ export default {
           this.addIncorrectWord()
         }
         console.log('pressed space. increased wordIndex by 1. new word is ' + '\'' + this.currentWord + '\'')
-      }
+      },
+
     },
     computed: {
       currentParagraph () {
@@ -162,7 +167,7 @@ export default {
         }
       },
       paragraphCount () {
-        if (!!this.paragraphList) {
+        if (this.paragraphList !== undefined | null) {
           return this.paragraphList.length
         }
       },
@@ -172,21 +177,23 @@ export default {
         }
       },
       testTextCount () {
-        if (this.typingtest.text) {
+        if (this.typingtest.text !== null | undefined) {
           return (this.typingtest.text).length
         }
       },
       userInputWithoutSpaces () {
         return this.userInput.split(' ').join('')
       },
-      wordsInCurrentParagraph () {
-        return this.currentParagraph.split(' ')
-      },
       wordList () {
         return this.typingtest.text.split(' ')
       },
+      wordsInCurrentParagraph () {
+        return this.currentParagraph.split(' ')
+      },
       wpm () {
-        return this.cpm / this.stopWatch
+        if (this.cpm / this.stopWatch) {
+          return this.cpm / this.stopWatch
+        }
       }
     },
     created () {
@@ -201,15 +208,28 @@ export default {
 }
 .content {
   max-height: 300px;
-  overflow-y: scroll;
-  font-size: 14px;
+  overflow-y: hidden;
+  line-height: 30px;
+  font-size: 16px;
 }
 .typedWord {
   color: gray;
   opacity: 0.5;
 }
 .incorrectWord {
-  text-decoration: underline;
+  text-decoration: none;
+  position: relative;
+  &:after {
+    position: absolute;
+    content: '';
+    height: 1px;
+    bottom: -1px;
+    margin: 0 auto;
+    left: -3px;
+    right: 0px;
+    width: 80%;
+    background: red;
+  }
 }
 .is-wrong {
   background-color: red * 0.01;
