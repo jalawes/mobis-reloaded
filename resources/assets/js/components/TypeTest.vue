@@ -89,11 +89,10 @@ export default {
       backspace () {
         console.log('user hit backspace')
         if (!this.userInputWithoutSpaces) {
-          // this.userInput = ''
           return
         }
-        if (!!this.userInput) { // if user input is truthy, then do something
-          console.log('increasing backspace count by 1') // backspace should reduce CPM --> ideally, no user should use the backspace
+        if (!!this.userInput) {
+          console.log('increasing backspace count by 1')
           this.backspaceCount += 1
         }
         console.log('user input ===== ' + this.userInput)
@@ -110,12 +109,12 @@ export default {
           console.log(response.data)
           this.typingtest = {
             title: response.data.title,
-            text: response.data.text
+            text: response.data.text.replace(/\n/g, "<br/>")
           }
           this.loading = false
           this.feedback = 'Ready to start!'
         })
-        .then(this.viewCurrentProblem) // load next problem into dom
+        // .then(this.viewCurrentProblem)
         .catch(errors => console.log(errors))
       },
       keyPress () {
@@ -173,10 +172,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.inner-box {
-  width: 80vw;
-  height: 150px;
-}
 .activeWord {
   color: #34E500;
 }

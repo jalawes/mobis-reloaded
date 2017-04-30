@@ -85,7 +85,7 @@ class TestController extends Controller
 
     public function getTest()
     {
-        $test = Test::get()->first();
+        $test = Test::all()->last();
         return $test;
     }
 }
