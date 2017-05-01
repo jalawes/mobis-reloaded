@@ -23,4 +23,5 @@ Route::resource('users', 'UserController');
 Route::group(['prefix' => 'api'], function () {
     Route::resource('quiz', 'QuestionController');
     Route::get('test', 'TestController@getTest');
+    Route::post('test', 'TestController@finishTest');
 });
