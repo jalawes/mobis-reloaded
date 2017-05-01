@@ -22,7 +22,7 @@
           <hr>
           <p>
             <span
-              :class="[{ 'activeWord': wordIndex == $word }, { 'typedWord': $word < wordIndex }, {'incorrectWord': incorrectWords.includes(word)}]"
+              :class="[{ 'activeWord': wordIndex == $word }, { 'typedWord': $word < wordIndex }, { 'incorrectWord': incorrectWordsIndex.includes($word) }]"
               v-for="word, $word in wordList"
             >{{ word }} </span>
           </p>
@@ -53,12 +53,14 @@ export default {
     data () {
       return {
         backspaceCount: 0,
-        correctWords: [],
+        correctWords: {},
+        correctWordsIndex: [],
         cpm: 0,
         feedback: '',
         goal: 100,
         incorrect: false,
-        incorrectWords: [],
+        incorrectWords: {},
+        incorrectWordsIndex: [],
         loading: false,
         paragraphIndex: 0,
         stopWatch: 60,
@@ -77,20 +79,34 @@ export default {
         this.wordsCorrect += 1
         this.wordIndex += 1
         this.userInput = ''
-        if (this.correctWords.includes(this.currentWord)) {
-          console.log(this.currentWord, 'is already an correct word. ignoring.')
+        if (this.correctWords[this.currentWord]) {
+          console.log(this.currentWord, 'is already an correct word. adding to tally.')
+          this.correctWords[this.currentWord] += 1
         } else {
           console.log(this.currentWord, '+++++ added to correct words!')
+          this.correctWords[this.currentWord] = 1
+          this.addToIndex('correctWordsIndex')
         }
       },
       addIncorrectWord () {
         this.incorrect = true
         this.wordsIncorrect += 1
-        if (this.incorrectWords.includes(this.currentWord)) {
-          console.log(this.currentWord, 'is already an incorrect word')
+        if (this.incorrectWords[this.currentWord]) {
+          console.log(this.currentWord, '----- is already an incorrect word. adding to tally.')
+          this.incorrectWords[this.currentWord] += 1
         } else {
-          this.incorrectWords.push(this.currentWord)
           console.log(this.currentWord, '----- added to incorrect words')
+          this.incorrectWords[this.currentWord] = 1
+          this.addToIndex('incorrectWordsIndex')
+        }
+      },
+      addToIndex(indexToAdd) {
+        if (this[indexToAdd].includes(this.wordIndex)) {
+          console.log('word already exists in', indexToAdd, 'index.', 'ignoring')
+          return
+        } else {
+          console.log('first time getting that word wrong. adding to', indexToAdd, 'index.')
+          this[indexToAdd].push(this.wordIndex)
         }
       },
       backspace () {
@@ -147,33 +163,18 @@ export default {
           return
         }
         if (this.userInput == this.currentWord) {
+          console.log('pressed space. increased wordIndex by 1. new word is ' + '\'' + this.currentWord + '\'')
           this.addCorrectWord()
         } else {
           this.addIncorrectWord()
         }
-        console.log('pressed space. increased wordIndex by 1. new word is ' + '\'' + this.currentWord + '\'')
       },
 
     },
     computed: {
-      currentParagraph () {
-        if (!!this.paragraphList) {
-          return this.paragraphList[this.paragraphIndex]
-        }
-      },
       currentWord () {
         if (!!this.wordList) {
           return this.wordList[this.wordIndex]
-        }
-      },
-      paragraphCount () {
-        if (this.paragraphList !== undefined | null) {
-          return this.paragraphList.length
-        }
-      },
-      paragraphList () {
-        if (!!this.typingtest.text) {
-          return this.typingtest.text.split(/\n/g)
         }
       },
       testTextCount () {
@@ -186,9 +187,6 @@ export default {
       },
       wordList () {
         return this.typingtest.text.split(' ')
-      },
-      wordsInCurrentParagraph () {
-        return this.currentParagraph.split(' ')
       },
       wpm () {
         if (this.cpm / this.stopWatch) {
@@ -209,8 +207,8 @@ export default {
 .content {
   max-height: 300px;
   overflow-y: hidden;
-  line-height: 30px;
-  font-size: 16px;
+  line-height: 40px;
+  font-size: 18px;
 }
 .typedWord {
   color: gray;

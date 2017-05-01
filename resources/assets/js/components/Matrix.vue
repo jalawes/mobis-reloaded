@@ -49,8 +49,8 @@ export default {
       this.ctx.font = '10px Georgia'
       this.yPositions.map((y, index) => {
         // let letters = ['t','h','e',' ', 'm','o','b','i','s',' ','r','e','o','a','d','e','d', ' ']
-        let text = String.fromCharCode(1e2 + Math.random() * 50)
         // let text = letters[Math.floor(Math.random() * letters.length)]
+        let text = String.fromCharCode(1e2 + Math.random() * 50)
         let x = (index * 10) + 10
         this.ctx.fillText(text, x, y)
         if (y > 100 + Math.random() * 1e4) {
