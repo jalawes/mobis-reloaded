@@ -3,7 +3,9 @@
 /////////////////////////////////////////////////////////////////
 /// 1. General Routes
 /////////////////////////////////////////////////////////////////
-Route::get('/', function () { return view('welcome'); })->name('default');
+Route::get('/', function () {
+  return view('welcome');
+})->name('default');
 Auth::routes();
 Route::get('logout', function () {
     Auth::logout();

@@ -16,7 +16,16 @@
                     {{ csrf_field() }}
                     <div class="field">
                         <p class="control has-icon">
-                            <input id="email" name="email" class="input{{ $errors->has('email') ? ' is-danger' : '' }}" type="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
+                            <input
+                              id="email"
+                              name="email"
+                              class="input{{ $errors->has('email') ? ' is-danger' : '' }}"
+                              type="email"
+                              placeholder="Email"
+                              value="{{ old('email') }}"
+                              required
+                              autofocus
+                            >
                             <span class="icon"><i class="fa fa-envelope"></i></span>
                         </p>
                         @if ($errors->has('email'))

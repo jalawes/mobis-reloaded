@@ -40,7 +40,7 @@ export default {
     },
     runMatrix () {
       if (typeof Game_Interval != 'undefined') clearInterval(Game_interval)
-      let Game_Interval = setInterval(this.drawScreen, 33)
+      let Game_Interval = setInterval(this.drawScreen, 50)
     },
     drawScreen () {
       this.ctx.fillStyle = 'rgba(0,0,0,.05)'
@@ -48,7 +48,9 @@ export default {
       this.ctx.fillStyle = '#0f0'
       this.ctx.font = '10px Georgia'
       this.yPositions.map((y, index) => {
-        let text = String.fromCharCode(1e2 + Math.random() * 33)
+        // let letters = ['t','h','e',' ', 'm','o','b','i','s',' ','r','e','o','a','d','e','d', ' ']
+        let text = String.fromCharCode(1e2 + Math.random() * 50)
+        // let text = letters[Math.floor(Math.random() * letters.length)]
         let x = (index * 10) + 10
         this.ctx.fillText(text, x, y)
         if (y > 100 + Math.random() * 1e4) {
