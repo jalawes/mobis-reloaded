@@ -1,20 +1,19 @@
 <template>
   <div class="section">
-    <p>
-      <strong>Status</strong>:
-      <span :class="[{ 'activeWord': !loading }]">{{ feedback }}</span>
-      <br>
-      <span><strong>Time Left</strong>: {{ stopWatch }}</span>
-      <br>
-      <span><strong>Incorrect Words</strong>: {{ wordsIncorrect }}</span>
-      <br>
-      <span><strong>Word</strong>: {{ wordIndex }} of paragraph {{ paragraphIndex + 1}} (<span class="activeWord">{{ wordList[wordIndex] }})</span></span>
-      <br>
-      <span><strong>Correctly Typed Words</strong>: {{ correctWords }}</span>
-      <br>
-      <span><strong>Incorrectly Typed Words</strong>: {{ incorrectWords }}</span>
-    </p>
-    <br>
+    <!--<nav class="level">
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Status</p>
+          <p class="title"><span :class="[{ 'activeWord': !loading }]">{{ feedback }}</span></p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">Time Left</p>
+          <p class="title"><span :class="[{ 'activeWord': !loading }]">{{ stopWatch }}</span></p>
+        </div>
+      </div>
+    </nav>-->
     <div class="box">
       <div v-show="!loading">
         <div class="content">
@@ -32,6 +31,7 @@
     <div class="field">
       <p class="control">
         <input
+          class="is-large"
           @keydown="keyPress"
           @keydown.delete="backspace"
           @keydown.esc="reset"
@@ -42,7 +42,7 @@
           v-model.trim="userInput"
         >
       </p>
-      <p>{{ userInput }}</p>
+      <a class="button is-outlined" @click.prevent="finishTest">Send Results</a>
     </div>
   </div>
 </template>
@@ -50,6 +50,12 @@
 <script>
 export default {
     name: 'Typingtest',
+    props: {
+      user: {
+        type: Object,
+        required: true
+      }
+    },
     data () {
       return {
         backspaceCount: 0,
@@ -62,7 +68,6 @@ export default {
         incorrectWords: {},
         incorrectWordsIndex: [],
         loading: false,
-        paragraphIndex: 0,
         stopWatch: 60,
         typedWords: [],
         typingtest: [],
@@ -115,10 +120,27 @@ export default {
           return
         }
         if (!!this.userInput) {
-          console.log('increasing backspace count by 1')
           this.backspaceCount += 1
+          console.log('increasing backspace count by 1')
         }
-        console.log('user input ===== ' + this.userInput)
+      },
+      finishTest () {
+        this.loading = true
+        axios.post('/api/test', {
+          test_id: this.typingtest.id,
+          user_id: this.user.id,
+          back_space_count: this.backspaceCount,
+          correct_words_count: this.wordsCorrect,
+          correct_words: this.correctWords,
+          incorrect_words_count: this.wordsIncorrect,
+          incorrect_words: this.incorrectWords,
+          wpm: this.wpm,
+        })
+        .then(response => {
+          console.log(response.data)
+          this.loading = false
+        })
+        .catch(errors => console.log(errors))
       },
       gettypingtest () {
         this.loading = true
@@ -131,6 +153,7 @@ export default {
         .then(response => {
           console.log(response.data)
           this.typingtest = {
+            id: response.data.id,
             title: response.data.title,
             text: response.data.text
           }
@@ -156,6 +179,11 @@ export default {
         this.wordsIncorrect = 0,
         this.wordsCorrect = 0,
         this.gettypingtest()
+      },
+      startTimer () {
+        setInterval (()=> {
+
+        }, 1000)
       },
       spacebar () {
         if (!this.userInputWithoutSpaces) {
