@@ -22,6 +22,7 @@ Vue.component('quiz', require('./components/Quiz'));
 Vue.component('profile', require('./components/Profile'));
 Vue.component('LoadingModal', require('./components/LoadingModal'));
 Vue.component('TypeTest', require('./components/TypeTest'));
+Vue.component('TypeHelloTest', require('./components/Hello'));
 
 /**
  * Matrix BG

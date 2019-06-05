@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class TestResult extends Model
 {
+
     protected $fillable = [
-        'test_id',
-        'user_id',
+        'back_space_count',
         'correct_words',
         'correct_words_count',
         'incorrect_words',
         'incorrect_words_count',
-        'back_space_count',
+        'test_id',
+        'user_id',
         'wpm',
     ];
 

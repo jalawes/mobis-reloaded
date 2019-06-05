@@ -91,9 +91,8 @@ class TestController extends Controller
 
     public function finishTest(Request $request)
     {
-        // return $request;
-        // return serialize($request->all());
-        $test = TestResult::create([
+
+        $test = TestResult::make([
             'test_id' => $request->test_id,
             'user_id' => $request->user_id,
             'correct_words' => $request->correct_words,
@@ -101,16 +100,9 @@ class TestController extends Controller
             'incorrect_words' => $request->incorrect_words_count,
             'incorrect_words_count' => $request->incorrect_words_count,
             'back_space_count' => $request->back_space_count,
-            // 'wpm' => $request->wpm,
+            'wpm' => $request->wpm,
         ]);
-        return $test;
-        return dd($test);
-        return $test;
-        // if ($results->save()) {
-        //     return 'Logged test results in the controller!';
-        // } else {
-        //     return 'There was an error. The test results could not be saved in the controller.';
-        // }
-        // $test = Test::all()->last();
+
+        return $this->respond($test);
     }
 }

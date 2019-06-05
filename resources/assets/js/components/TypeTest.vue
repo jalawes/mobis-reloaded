@@ -1,29 +1,19 @@
 <template>
   <div class="section">
-    <!--<nav class="level">
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Status</p>
-          <p class="title"><span :class="[{ 'activeWord': !loading }]">{{ feedback }}</span></p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
-          <p class="heading">Time Left</p>
-          <p class="title"><span :class="[{ 'activeWord': !loading }]">{{ stopWatch }}</span></p>
-        </div>
-      </div>
-    </nav>-->
     <div class="box">
       <div v-show="!loading">
         <div class="content">
-          <h3>{{ typingtest.title }}</h3>
+          <h3>{{ typingTest.title }}</h3>
           <hr>
           <p>
             <span
-              :class="[{ 'activeWord': wordIndex == $word }, { 'typedWord': $word < wordIndex }, { 'incorrectWord': incorrectWordsIndex.includes($word) }]"
+              :class="[{ 'activeWord': wordIndex == $word },
+                       { 'typedWord': $word < wordIndex },
+                       { 'incorrectWord': incorrectWordsIndex.includes($word) }]"
               v-for="word, $word in wordList"
-            >{{ word }} </span>
+            >
+            {{ word }}
+          </span>
           </p>
         </div>
       </div>
@@ -43,6 +33,12 @@
         >
       </p>
       <a class="button is-outlined" @click.prevent="finishTest">Send Results</a>
+    </div>
+
+    <div>
+      <h2>Results</h2>
+      <p>You're typing {{ cpm }} characters per minute.</p>
+      <p>You've pressed backspace {{ backspaceCount }} times</p>
     </div>
   </div>
 </template>
@@ -70,7 +66,7 @@ export default {
         loading: false,
         stopWatch: 60,
         typedWords: [],
-        typingtest: [],
+        typingTest: [],
         userInput: '',
         wordIndex: 0,
         wordsIncorrect: 0,
@@ -90,7 +86,7 @@ export default {
         } else {
           console.log(this.currentWord, '+++++ added to correct words!')
           this.correctWords[this.currentWord] = 1
-          this.addToIndex('correctWordsIndex')
+          this.addToIncorrectWordIndex('correctWordsIndex')
         }
       },
       addIncorrectWord () {
@@ -102,10 +98,10 @@ export default {
         } else {
           console.log(this.currentWord, '----- added to incorrect words')
           this.incorrectWords[this.currentWord] = 1
-          this.addToIndex('incorrectWordsIndex')
+          this.addToIncorrectWordIndex('incorrectWordsIndex')
         }
       },
-      addToIndex(indexToAdd) {
+      addToIncorrectWordIndex(indexToAdd) {
         if (this[indexToAdd].includes(this.wordIndex)) {
           console.log('word already exists in', indexToAdd, 'index.', 'ignoring')
           return
@@ -127,14 +123,14 @@ export default {
       finishTest () {
         this.loading = true
         axios.post('/api/test', {
-          test_id: this.typingtest.id,
-          user_id: this.user.id,
-          back_space_count: this.backspaceCount,
-          correct_words_count: this.wordsCorrect,
-          correct_words: this.correctWords,
+          back_space_count:      this.backspaceCount,
+          correct_words:         this.correctWords,
+          correct_words_count:   this.wordsCorrect,
+          incorrect_words:       this.incorrectWords,
           incorrect_words_count: this.wordsIncorrect,
-          incorrect_words: this.incorrectWords,
-          wpm: this.wpm,
+          test_id:               this.typingTest.id,
+          user_id:               this.user.id,
+          wpm:                   this.wpm,
         })
         .then(response => {
           console.log(response.data)
@@ -142,9 +138,9 @@ export default {
         })
         .catch(errors => console.log(errors))
       },
-      gettypingtest () {
+      gettypingTest () {
         this.loading = true
-        this.typingtest = {
+        this.typingTest = {
           title: '',
           text: ''
         }
@@ -152,7 +148,7 @@ export default {
         axios.get('/api/test')
         .then(response => {
           console.log(response.data)
-          this.typingtest = {
+          this.typingTest = {
             id: response.data.id,
             title: response.data.title,
             text: response.data.text
@@ -171,14 +167,14 @@ export default {
         this.goal = 100,
         this.incorrect = false,
         this.loading = false,
-        this.typingtest = [],
+        this.typingTest = [],
         this.userInput = '',
         this.typedWords = [],
         this.stopWatch = 60,
         this.wordIndex = 0,
         this.wordsIncorrect = 0,
         this.wordsCorrect = 0,
-        this.gettypingtest()
+        this.gettypingTest()
       },
       startTimer () {
         setInterval (()=> {
@@ -206,15 +202,15 @@ export default {
         }
       },
       testTextCount () {
-        if (this.typingtest.text !== null | undefined) {
-          return (this.typingtest.text).length
+        if (this.typingTest.text !== null | undefined) {
+          return (this.typingTest.text).length
         }
       },
       userInputWithoutSpaces () {
         return this.userInput.split(' ').join('')
       },
       wordList () {
-        return this.typingtest.text.split(' ')
+        return this.typingTest.text.split(' ')
       },
       wpm () {
         if (this.cpm / this.stopWatch) {
@@ -223,7 +219,7 @@ export default {
       }
     },
     created () {
-      this.gettypingtest()
+      this.gettypingTest()
     }
 }
 </script>
